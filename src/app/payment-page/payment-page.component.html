@@ -1,0 +1,21 @@
+<ion-content style="background:transparent">
+  <div class="div_class">
+    <ion-card class="card_style">
+      <ion-list>
+        <ion-item>
+          <ion-avatar slot="start">
+            <ion-img [src]="serviceProvider.path" class="footer_image"></ion-img>
+          </ion-avatar>
+          <ion-label>
+            <p>{{serviceProvider.carname }}</p>
+            <p> Your requested car</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <div class="button_Pos">
+        <ion-button fill="clear" (click)="closeModal()" slot="end" color="medium">CANCEL</ion-button>
+        <ion-button fill="clear" (click)="routeModal()" slot="end" color="dark">REQUEST RIDE</ion-button>
+      </div>
+    </ion-card>
+  </div>
+</ion-content>

@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon slot="start" expand="icon-only" (click)="dismiss()" name="arrow-back" class="icon_header" size="large">
+      </ion-icon>
+    </ion-buttons>
+    <ion-title>History</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-card *ngFor="let ride of rides">
+    <div ion-fixed class="map">
+      <agm-map [latitude]="ride.origin.lat" [longitude]="ride.origin.lng" gestureHandling="cooperative">
+        <agm-direction [origin]="ride.origin" [destination]="ride.destination"></agm-direction>
+      </agm-map>
+    </div>
+
+    <ion-card-content class="content">
+      <span *ngIf="ride.date">{{ ride.date.toDate().toUTCString() }}</span>
+      <span *ngIf="!ride.date">Date not available</span>
+      <span>$ {{ ride.fare }}</span></ion-card-content>
+  </ion-card>
+</ion-content>

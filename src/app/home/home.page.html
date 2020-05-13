@@ -1,0 +1,103 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="light"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      HKUSTransport
+    </ion-title>
+    <ion-buttons slot="primary">
+      <ion-button color="light" (click)="reset()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-button (click)="gotoEditMidOne()">Add passenger</ion-button>
+
+
+  <ion-card class="card_pickup1" *ngIf="pickup">
+    <ion-item>
+      <ion-button size="large" (click)="gotoEditNorth(true)" [disabled]="!pickup">North Point</ion-button>
+      <ion-button size="large" (click)="gotoEditSouth(true)" [disabled]="!pickup">South Point</ion-button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card class="card_Destination1" (click)="gotoEdit('destination',false)" *ngIf="pickup">
+    <ion-item class="mapcardItem">
+      <ion-icon slot="start" expand="icon-only" name="search"></ion-icon>
+      <ion-label text-center>
+        <h2 class="h2_color" *ngIf="serviceProvider.showdestination == ''">Destination Location</h2>
+        <h3>{{serviceProvider.showdestination}}</h3>
+      </ion-label>
+    </ion-item>
+  </ion-card>
+
+  <ion-card class="card_pickup2" *ngIf="!pickup">
+    <ion-item class="mapcardItem">
+      <ion-button size="large" (click)="gotoEditNorth(true)" [disabled]="pickup">North Point</ion-button>
+      <ion-button size="large" (click)="gotoEditSouth(true)" [disabled]="pickup">South Point</ion-button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card class="card_destination2" (click)="gotoEdit('destination',false,'modal')" *ngIf="!pickup">
+    <ion-item>
+      <ion-icon slot="start" expand="icon-only" name="search"></ion-icon>
+      <ion-label text-center>
+        <h2 class="h2_color">Destination Point</h2>
+        <h3>{{serviceProvider.showdestination}}</h3>
+      </ion-label>
+    </ion-item>
+  </ion-card>
+
+  <div class="location-hint-text">
+    <ion-text *ngIf="pickup">Choose North/South of campus</ion-text>
+    <ion-text *ngIf="!pickup">Type destination location and the drag marker</ion-text>
+  </div>
+
+
+  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="14" [disableDefaultUI]="false" [zoomControl]="false"
+    (mapClick)="mapClicked($event)" [fullscreenControl]="true" [fullscreenControlOptions]="screenOptions">
+    <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true" (dragEnd)="markerDragEnd(m, $event)"
+      [animation]="'DROP'" >
+      <agm-info-window>
+        <strong>P1</strong>
+      </agm-info-window>
+    </agm-marker>
+    <agm-marker *ngFor="let marker of coordinates"  [markerDraggable]="false"
+      [animation]="'DROP'" [latitude]="marker.latitude" [longitude]="marker.longitude"></agm-marker>
+    <agm-direction (onResponse)="onResponse($event)" *ngIf="origin && origin.lat && destination && destination.lat"
+      [origin]="origin" [destination]="destination" [markerOptions]="markerOptions" [renderOptions]="renderOptions"
+      [waypoints]="waypoints">
+    </agm-direction>
+  </agm-map>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="fab_icon">
+    <ion-fab-button (click)="getCurrentLoaction()">
+      <ion-icon name="locate" style="font-size: 35px;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<ion-footer>
+  <div *ngIf="origin && origin.lat && destination && destination.lat" class="distance"> Total distance :
+    {{tripDistance}} km </div>
+  <ion-grid style="background-color: rgb(80, 200, 209);">
+    <ion-row>
+      <div class="horizontal_line"></div>
+      <ion-col>
+        <ion-label class="label_Class" (click)="openImageCtrl('Random registered driver','assets/image/sedan.png')"
+          (click)="changeStyle(2)">
+          <div class="img_div"
+            [ngStyle]="{'height':item[2].hw+'px','width':item[2].hw+'px', 'background':item[2].color, 'margin-left':item[2].ml+'%'}">
+            <ion-img src="assets/image/sedan.png" class="footer_image"></ion-img>
+          </div>
+          <h3 [ngStyle]="{'color':item[2].name}">Request Car</h3>
+          <!-- <h4>Nol Cars</h4> -->
+        </ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

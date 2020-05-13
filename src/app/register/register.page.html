@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid padding-top>
+    <ion-row>
+      <ion-col size="6">
+        <ion-item class="item_input">
+          <ion-label position="stacked" padding-bottom color="medium">FIRST NAME</ion-label>
+          <ion-input type="text" [(ngModel)]="user.first_name"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item class="item_input">
+          <ion-label position="stacked" padding-bottom color="medium">LAST NAME</ion-label>
+          <ion-input type="text" [(ngModel)]="user.last_name"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+
+      <ion-col size="12">
+        <ion-item class="item_input">
+          <ion-label position="stacked" padding-bottom color="medium">
+            EMAIL</ion-label>
+          <ion-input type="email" [(ngModel)]="user.email"></ion-input>@
+          <ion-select [(ngModel)]="Email" okText="Okay" cancelText="Dismiss">
+            <ion-select-option value="connect.ust.hk">connect.ust.hk</ion-select-option>
+            <ion-select-option value="ust.hk">ust.hk</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="4">
+        <ion-item>
+          <ion-label position="stacked" padding-bottom color="medium">Area</ion-label>
+          <ion-select [interfaceOptions]="customAlertOptions" interface="alert" placeholder="+852" okText="Okay!"
+            [(ngModel)]="user.area">
+            <ion-select-option *ngFor="let item of data" [value]="item.dial_code">+852</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size="8">
+        <ion-item class="item_input">
+          <ion-label position="stacked" padding-bottom color="medium">Mobile</ion-label>
+          <ion-input type="number" [(ngModel)]="user.phone"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-item class="item_input">
+          <ion-label position="stacked" padding-bottom color="medium">PASSWORD</ion-label>
+          <ion-input type="password" [(ngModel)]="user.password"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer padding>
+  <ion-button expand="block" type="submit" [disabled]="disabled" class="submit_button" (click)="registerUser()">Next
+    <span *ngIf="spinner">
+      <ion-spinner name="lines"></ion-spinner>
+    </span>
+  </ion-button>
+</ion-footer>
